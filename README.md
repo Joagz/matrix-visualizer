@@ -3,18 +3,25 @@
 Enables te user to Add Vectors and visualize them.
 
 
-![alt text](https://github.com/Joagz/matrix-visualizer/blob/master/Screenshot%202023-12-27%20162838.png)
+![matrix visualizer](https://github.com/Joagz/matrix-visualizer/blob/master/Screenshot%202023-12-27%20162838.png)
 
 - To open the project go to -> html -> index.html and open the file.
 
-
+[Link to the file: ](https://github.com/Joagz/matrix-visualizer/blob/master/js/script.js)
 ```javascript
-const matrixSize = document.getElementById("matrixSize");
+const matrixSizeInput = document.getElementById("matrixSize");
 const create = document.getElementById("create");
 const matrixSizeDisplay = document.getElementById("matrixSizeDisplay");
 
-matrixSizeDisplay.innerHTML = matrixSize.value;
-matrixSize.addEventListener("change", (event) => {
+// Get size from localStorage
+const matrixSize = localStorage.getItem("matrixSize")
+  ? JSON.parse(localStorage.getItem("matrixSize"))
+  : 1;
+
+matrixSizeInput.value = matrixSize;
+matrixSizeDisplay.innerHTML = matrixSize;
+
+matrixSizeInput.addEventListener("change", (event) => {
   matrixSizeDisplay.innerHTML = event.target.value;
 });
 
@@ -22,12 +29,13 @@ const goCrazyGenDelay = 100;
 
 // Once size is set create Matrix
 create.addEventListener("click", () => {
-  createCanvas(matrixSize.value, [], []);
+  localStorage.setItem("matrixSize", matrixSizeInput.value);
+  createCanvas(matrixSizeInput.value, [], []);
 });
 
 // Create canvas, Vectors and Points
 function createCanvas(gridIndexAmount, circles, vectorList) {
-  matrixSize.remove();
+  matrixSizeInput.remove();
   create.remove();
 
   class Vector {
