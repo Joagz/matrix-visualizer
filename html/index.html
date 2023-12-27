@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrix Visualizer</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+  </head>
+  <body>
+    <div id="container">
+      <h1>Vector Visualizer</h1>
+      <div class="flex">
+        <h3>MatrixSize:</h3>
+        <h3 id="matrixSizeDisplay"></h3>
+      </div>
+      <input type="range" min="1" max="100" id="matrixSize" />
+      <button id="create">Create</button>
+      <div id="vectorCreator">
+        <div id="vectors"><div id="sumContainer"></div></div>
+      </div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="../js/script.js"></script>
+  </body>
+</html>
