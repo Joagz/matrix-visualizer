@@ -1,17 +1,20 @@
 const matrixSize = document.getElementById("matrixSize");
 const create = document.getElementById("create");
 const matrixSizeDisplay = document.getElementById("matrixSizeDisplay");
+
 matrixSizeDisplay.innerHTML = matrixSize.value;
 matrixSize.addEventListener("change", (event) => {
   matrixSizeDisplay.innerHTML = event.target.value;
 });
 
-const goCrazyGenDelay = 100
+const goCrazyGenDelay = 100;
 
+// Once size is set create Matrix
 create.addEventListener("click", () => {
   createCanvas(matrixSize.value, [], []);
 });
 
+// Create canvas, Vectors and Points
 function createCanvas(gridIndexAmount, circles, vectorList) {
   matrixSize.remove();
   create.remove();
@@ -98,7 +101,10 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+
+  // Clean on every new generation
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   var window_height = window.innerHeight;
   var window_width = window.innerWidth;
 
@@ -112,6 +118,7 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
   var transformationX = width / 2;
   var transformationY = height;
 
+  // Get the center of the screen in relation to a width and height
   function calculateCenter(x, y) {
     let centerPosX = window_width / 2 - x / 2;
     let centerPosY = window_height / 2 - y / 2;
@@ -137,6 +144,7 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
 
     var temp = distance;
 
+    // DRAW LINES
     for (
       var i = -gridIndexAmount;
       i <= gridIndexAmount && i >= -gridIndexAmount;
@@ -172,10 +180,11 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
       temp = temp + distance;
       ctx.stroke();
     }
+    // END DRAW LINES
 
     var temp = distance;
 
-    // ? Add Text
+    // ADD THE COORDINATES
 
     if (!gridIndexAmount > 20) {
       ctx.font = "15px Segoe UI";
@@ -204,10 +213,13 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
         temp = distance + temp;
       }
     }
+    // END ADD THE COORDINATES
+
     temp = [distance, distance];
 
     let index = 0;
 
+    // DRAW THE POINTS (IF THE GRID SIZE < 20)
     for (
       var i = gridIndexAmount;
       i >= -gridIndexAmount && i <= gridIndexAmount;
@@ -255,8 +267,9 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
     ctx.strokeStyle = "#000";
     ctx.strokeRect(sqCenter[0], sqCenter[1], width, height);
   }
-  // VECTORS
+  // END DRAW THE POINTS
 
+  // DRAW VECTORS
   function drawVector(
     coordX,
     coordY,
@@ -284,7 +297,9 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
       }
     });
   }
+  //END DRAW VECTORS
 
+  // VECTOR CONTAINER
   const container = document.getElementById("vectorCreator");
   const vectors = document.getElementById("vectors");
   const addVectorBtn = document.createElement("button");
@@ -294,11 +309,13 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
 
   goCrazy.innerHTML = "Go Crazy";
   addVectorBtn.innerHTML = "Add Vector";
+  // END VECTOR CONTAINER
 
   let isVectorAdded = false;
   addVectorBtn.addEventListener("click", () => {
     if (isVectorAdded == true) return;
 
+    // Create inputs to handle vector position
     const inputX = document.createElement("input");
     inputX.type = "number";
     inputX.max = gridIndexAmount;
@@ -318,29 +335,38 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
     container.appendChild(textX);
     container.appendChild(inputX);
 
+    // Confirmation button
     const buttonConfirm = document.createElement("button");
     buttonConfirm.appendChild(document.createTextNode("Confirm"));
     container.appendChild(textY);
     container.appendChild(inputY);
     container.appendChild(buttonConfirm);
+
+    // Create sum-all button
     const sumButton = document.createElement("button");
 
     const sumContainer = document.getElementById("sumContainer");
     sumButton.innerHTML = "Sum";
+    // Check if confirm
     buttonConfirm.addEventListener("click", (event) => {
       sum = "";
       if (vectorList.length > 0) {
+        // Add sum if there's more than one vector
         sum = document.createElement("p");
         sum.innerHTML = "+";
         sumContainer.appendChild(sumButton);
       }
+
+      // Add vector draw
       drawVector(inputX.value, inputY.value, circles);
+      // Add vector matrix representation
       const vectorMatrix = document.createElement("p");
       vectorMatrix.innerHTML = `[${inputX.value}; ${inputY.value}]`;
       vectors.append(sum);
       vectors.appendChild(vectorMatrix);
     });
 
+    // Create the sum
     sumButton.addEventListener("click", (event) => {
       let finalX = 0;
       let finalY = 0;
@@ -354,12 +380,15 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
       const resultMatrix = document.createElement("p");
       resultMatrix.innerHTML = `= [${finalX}; ${finalY}]`;
       vectors.appendChild(resultMatrix);
+
+      // Draw the result
       drawVector(finalX, finalY, circles, "red");
     });
 
     isVectorAdded = true;
   });
 
+  // Go crazy function (Adds all possible vectors to the matrix)
   goCrazy.addEventListener("click", async (event) => {
     for (
       let i = -gridIndexAmount;
@@ -385,7 +414,7 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
               circles,
               colors[getRndInteger(0, colors.length - 1)]
             );
-          }, goCrazyGenDelay * Math.abs(j));
+          }, goCrazyGenDelay * Math.abs(j)); // Has a bit of delay
         }
       }, goCrazyGenDelay * Math.abs(i));
     }
