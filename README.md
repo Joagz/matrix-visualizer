@@ -8,7 +8,7 @@ Enables te user to Add Vectors and visualize them.
 - To open the project go to -> html -> index.html and open the file.
 
 
-```
+```javascript
 const matrixSize = document.getElementById("matrixSize");
 const create = document.getElementById("create");
 const matrixSizeDisplay = document.getElementById("matrixSizeDisplay");
