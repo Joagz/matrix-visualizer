@@ -1,10 +1,12 @@
 const matrixSizeInput = document.getElementById("matrixSize");
 const create = document.getElementById("create");
 const matrixSizeDisplay = document.getElementById("matrixSizeDisplay");
+
+// Get size from localStorage
 const matrixSize = localStorage.getItem("matrixSize")
   ? JSON.parse(localStorage.getItem("matrixSize"))
   : 1;
-  
+
 matrixSizeInput.value = matrixSize;
 matrixSizeDisplay.innerHTML = matrixSize;
 
@@ -192,7 +194,7 @@ function createCanvas(gridIndexAmount, circles, vectorList) {
 
     // ADD THE COORDINATES
 
-    if (!gridIndexAmount > 20) {
+    if (gridIndexAmount <= 20) {
       ctx.font = "15px Segoe UI";
       ctx.fillStyle = "#000";
       for (
